@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theatre Show Timings</title>
+<style>
+    body {
+        background-color: #1a1a1a;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        overflow: hidden; /* Prevent scrollbar from appearing initially */
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-around;
+        background-color: #333;
+        padding: 10px 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .date-box {
+        width: 20%;
+        text-align: center;
+        color: white;
+        padding: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .date-box:hover {
+        background-color: #555;
+    }
+
+    .container {
+        margin: 50px auto;
+        width: 80%;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        border-radius: 12px;
+        animation: slideInFromBottom ease-in-out 1s;
+    }
+
+    @keyframes slideInFromBottom {
+        0% {
+            transform: translateY(100%);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    h1 {
+        font-size: 64px;
+        color: white;
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .show-box {
+        background-color: #f2f2f2;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 8px;
+        transition: transform 0.3s;
+    }
+
+    .show-box:hover {
+        transform: scale(1.05);
+    }
+
+    .show-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Screen</h1>
+<div class="container">
+    <div class="navbar">
+        <div class="date-box">24</div>
+        <div class="date-box">25</div>
+        <div class="date-box">26</div>
+        <div class="date-box">27</div>
+        <div class="date-box">28</div>
+    </div>
+
+    <div>
+        <h2>Theatre A</h2>
+        <div class="show-container">
+            <div class="show-box">Show 1: 10:00 AM</div>
+            <div class="show-box">Show 2: 2:00 PM</div>
+            <div class="show-box">Show 3: 6:00 PM</div>
+        </div>
+    </div>
+    <div>
+        <h2>Theatre B</h2>
+        <div class="show-container">
+            <div class="show-box">Show 1: 11:00 AM</div>
+            <div class="show-box">Show 2: 3:00 PM</div>
+            <div class="show-box">Show 3: 7:00 PM</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Remove overflow:hidden from body after animation finishes
+    document.querySelector('.container').addEventListener('animationend', function() {
+        document.body.style.overflow = 'auto';
+    });
+</script>
+
+</body>
+</html>
+
+

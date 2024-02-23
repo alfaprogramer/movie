@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Movie Booking</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: auto; /* Add scrolling to the whole page */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* Set minimum height to ensure full viewport height */
+        }
+
+        .screen-title {
+            font-size: 64px;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite alternate;
+        }
+
+        .white-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* Add inner shadow */
+            animation: fadeIn 1s ease-in-out;
+            width: 80%; /* Adjust width */
+            max-width: 800px; /* Add maximum width */
+        }
+
+        .movie-details {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .movie-poster img {
+            width: 300px; /* Increase movie poster size */
+            height: auto;
+            margin-right: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .movie-poster img:hover {
+            transform: scale(1.05);
+        }
+
+        .movie-info {
+            flex: 1;
+        }
+
+        .movie-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        .certification,
+        .language {
+            font-size: 18px;
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: black;
+            margin-bottom: 20px; /* Add margin below description */
+        }
+
+        .top-cast {
+            margin-top: 20px;
+            animation: slideInUp 1s ease-in-out;
+            color: black; /* Change font color */
+            width: 100%; /* Set width to ensure full width */
+            display: flex; /* Display cards in a row */
+            justify-content: space-between; /* Evenly distribute space between cards */
+            align-items: flex-start; /* Align cards to the top */
+            flex-wrap: wrap; /* Allow cards to wrap */
+        }
+
+        .top-cast-title {
+            width: 100%; /* Set width to ensure full width */
+            text-align: center; /* Center align text */
+            font-size: 24px; /* Adjust font size */
+            margin-bottom: 20px; /* Add margin bottom */
+            color: black; /* Change font color */
+            font-weight: bold; /* Make font bold */
+        }
+
+        .cast-card {
+            text-align: center;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            border: none; /* Remove border from cards */
+            flex-shrink: 0; /* Prevent cards from shrinking */
+            width: calc(25% - 20px); /* Set width for each card */
+            margin-bottom: 20px; /* Add margin between cards */
+        }
+
+        .cast-card img {
+            width: 100%; /* Ensure image fills the card */
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .cast-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .actor-name {
+            font-size: 14px;
+            color: black;
+            margin-top: 5px;
+        }
+
+        .book-ticket {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-ticket:hover {
+            background-color: #ffc107; /* Change color on hover */
+        }
+
+        /* Keyframe animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            0% {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="screen-title">Screen</div>
+        <div class="white-box">
+            <div class="movie-details">
+                <div class="movie-poster">
+                    <img src="{{ movie.image.url }}" alt="{{ movie.name }} Poster">
+                </div>
+                <div class="movie-info">
+                    <h1 class="movie-name">{{ movie.name }}</h1>
+                    <div class="certification">{{ movie.adult_or_underaged }}</div>
+                    <div class="language">{{ movie.language }}</div>
+                    <p class="description">{{ movie.description }}</p>
+                </div>
+            </div>
+            <h2 class="top-cast-title">Top Cast</h2>
+            <div class="top-cast">
+                {% for actor in actors %}
+                    <div class="cast-card">
+                        <a href="{{ actor.google_url }}" target="_blank">
+                            <img src="{{ actor.image.url }}" alt="{{ actor.name }}">
+                            <div class="actor-name">{{ actor.name }}</div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="book-ticket" type="button" onclick="navigateToShowPage()" >Book Ticket</button>
+        </div>
+    </div>
+<script>
+     
+function navigateToShowPage() {
+    // Get movie name and city from the URL or any other source
+    var movieName = '{{ movie.name }}'; // Get movie name from the backend
+    var cityName = '{{ city }}'; // Get city name from the backend
+    
+    // Create a form element
+    var form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', '/shows/'); // Adjust the action URL if needed
+
+    // Create hidden input fields for movie name and city
+    var movieInput = document.createElement('input');
+    movieInput.setAttribute('type', 'hidden');
+    movieInput.setAttribute('name', 'movie');
+    movieInput.setAttribute('value', movieName);
+    form.appendChild(movieInput);
+
+    var cityInput = document.createElement('input');
+    cityInput.setAttribute('type', 'hidden');
+    cityInput.setAttribute('name', 'city');
+    cityInput.setAttribute('value', cityName);
+    form.appendChild(cityInput);
+
+    // Append the form to the document body and submit it
+    document.body.appendChild(form);
+    form.submit();
+}    
+  
+</script>
+</body>
+</html>

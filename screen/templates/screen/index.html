@@ -1,0 +1,350 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang-"en">
+<head>
+<title>{% block title %}Screen{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'screen/styles.css' %}" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       
+</head>
+<body>
+<div class="blackbar" id="blackbar">
+<div class="title">
+<span id="titleText">Screen</span>
+ <input class="search" type="text" id="search" placeholder="Search Movie" oninput="searchMovies(this.value, '{{ city.name }}')">
+
+ <div id="searchResults"></div>
+
+<div class="custom-dropdown">
+  <button class="dropdown-toggle" id="dropdownToggle" onclick="toggleDropdown()">
+        <span  id="selectedCity2" >City</span>
+  </button>
+  <ul class="dropdown-menu" id="cityDropdown">
+  
+  </ul>
+</div>
+</div>
+
+</div>
+
+ 
+<div class="crousalC">
+    <div class="crousalA">
+        <div class="crousalB">
+            <img id="slide1" src="{% static 'screen/endgame.jpg'%}" alt="image">
+            <img id="slide2" src="{% static 'screen/mi.jpeg'%}" alt="image">
+            <img id="slide3" src="{% static 'screen/batman.jpg'%}" alt="image">
+        </div>
+        <div class="slider-nav">
+            <a href="#" class="nav-link" data-slide="slide1"></a>
+            <a href="#" class="nav-link" data-slide="slide2"></a>
+            <a href="#" class="nav-link" data-slide="slide3"></a>
+        </div>
+    </div>
+</div> 
+
+
+
+<div class="main">
+Movies In <span id="selectedCity">City</span>
+</div>
+
+<div class="container">
+<button id="buttonH" class="buttonhindi" onclick="toggleFilterLanguage('H')">Hindi</button>
+<button id="buttonE"class="buttonhindi" onclick="toggleFilterLanguage('E')">English</button>
+<button id="buttonP" class="buttonhindi" onclick="toggleFilterLanguage('P')">Punjabi</button>
+</div>
+
+<div class="container">
+<button id="buttonA" class="buttonhindi" onclick="toggleFilter('A')">18+ / A </button>
+<button id="buttonUA" class="buttonhindi" onclick="toggleFilter('UA')">UA</button>
+</div>
+
+
+<div class="row" id="movieList">
+
+</div>
+
+<div class="end">
+<p class="pp">
+Copy right @2024 screen and fun limited.<br><br>
+
+The content and images used on this site are copyright and protected and copyright vest with the respective owner. the usage of content and images<br>
+on this website is intented to promote the works and no endosments of the artist  shall be implied.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// Function to toggle dropdown menu
+function toggleDropdown() {
+    var dropdownMenu = document.querySelector('.dropdown-menu');
+    dropdownMenu.style.display = (dropdownMenu.style.display === 'block') ? 'none' : 'block';
+}
+
+// Function to select city and fetch movies
+function selectCity(city) {
+    document.getElementById('buttonA').classList.remove('buttonhindiClicked');
+    document.getElementById('buttonUA').classList.remove('buttonhindiClicked');
+
+    document.getElementById('selectedCity').innerText = city;
+    document.getElementById('selectedCity2').innerText = city;
+
+    // Update selectedCity variable
+    selectedCity = city;
+
+    toggleDropdown();
+    fetchMovies(city);
+}
+
+
+
+
+// Function to fetch movies for the selected city
+async function fetchMovies(city) {
+    try {
+        const selectedCity = encodeURIComponent(city); // Encode city name
+        const response = await fetch(`/get_movies/${selectedCity}`); // Include selected city in URL
+        const data = await response.json();
+
+        displayMovies(data);
+    } catch (error) {
+        console.error('Error fetching movies:', error);
+    }
+}
+
+// Function to display movies
+function displayMovies(movies) {
+    const movieList = document.getElementById('movieList');
+    movieList.innerHTML = '';
+    const selectedCity = document.getElementById('selectedCity').innerText; // Retrieve selected city
+    movies.forEach(movie => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+            <img src="${movie.image}" alt="${movie.image}">
+            <div class="overlay">
+                <p>Movie name: ${movie.name}</p>
+            </div>
+        `;
+        // Add click event listener to each card
+       card.addEventListener('click', function() {
+    window.location.href = `/movie-details/${movie.name}/?city=${encodeURIComponent(selectedCity)}`;
+});
+        movieList.appendChild(card);
+    });
+}
+
+
+
+
+
+// Function to execute on window load
+window.onload = async function () {
+    try {
+        // Fetch city data from the server
+        const response = await fetch('/get_cities'); // Replace with your endpoint URL
+        const cities = await response.json();
+        const cityDropdown = document.getElementById('cityDropdown');
+
+        // Loop through cities and create list items for dropdown
+        cities.forEach((city, index) => {
+            const li = document.createElement('li');
+            li.textContent = city.name;
+            li.onclick = () => selectCity(city.name);
+            cityDropdown.appendChild(li);
+
+            // Select the first city by default
+            if (index === 0) {
+                selectCity(city.name);
+            }
+        });
+
+        // Close dropdown menu by default
+        toggleDropdown();
+    } catch (error) {
+        console.error('Error fetching cities:', error);
+    }
+};
+
+
+document.body.addEventListener('click', function(event) {
+  var dropdownMenu = document.querySelector('.dropdown-menu');
+  var dropdownToggle = document.querySelector('.dropdown-toggle');
+  
+  // Check if the click target is outside the dropdown menu or toggle button
+  if (!dropdownMenu.contains(event.target) && event.target !== dropdownToggle) {
+    dropdownMenu.style.display = 'none'; // Hide the dropdown menu
+  }
+});
+
+
+async function toggleFilter(ageRating) {
+    const selectedCity = document.getElementById('selectedCity').innerText;
+    const buttonA = document.getElementById('buttonA');
+    const buttonUA = document.getElementById('buttonUA');
+
+    // Check if the button is already clicked
+    const isButtonClicked = ageRating === 'A' ? buttonA.classList.contains('buttonhindiClicked') : buttonUA.classList.contains('buttonhindiClicked');
+
+    // Toggle button class and call filter function
+    if (ageRating === 'A') {
+        if (isButtonClicked) {
+            buttonA.classList.remove('buttonhindiClicked');
+            await fetchMovies(selectedCity); // Fetch all movies when filter is removed
+        } else {
+            buttonA.classList.add('buttonhindiClicked');
+            buttonUA.classList.remove('buttonhindiClicked');
+            await filterByAgeRating(ageRating, selectedCity);
+        }
+    } else if (ageRating === 'UA') {
+        if (isButtonClicked) {
+            buttonUA.classList.remove('buttonhindiClicked');
+            await fetchMovies(selectedCity); // Fetch all movies when filter is removed
+        } else {
+            buttonUA.classList.add('buttonhindiClicked');
+            buttonA.classList.remove('buttonhindiClicked');
+            await filterByAgeRating(ageRating, selectedCity);
+        }
+    }
+}
+
+async function filterByAgeRating(ageRating, selectedCity) {
+    try {
+        const response = await fetch(`/get_movies_by_age_rating/${selectedCity}/${ageRating}`);
+        const data = await response.json();
+        displayMovies(data);
+    } catch (error) {
+        console.error('Error filtering movies:', error);
+    }
+}
+
+
+async function toggleFilterLanguage(language) {
+    const selectedCity = document.getElementById('selectedCity').innerText;
+    const button = document.getElementById(`button${language}`);
+    const isButtonClicked = button.classList.contains('buttonhindiClicked');
+    
+    // Toggle button class for the clicked button
+    if (isButtonClicked) {
+        button.classList.remove('buttonhindiClicked');
+        await fetchMovies(selectedCity); // Fetch all movies when filter is removed
+    } else {
+        const buttons = document.querySelectorAll('.buttonhindi');
+        buttons.forEach(btn => btn.classList.remove('buttonhindiClicked'));
+        button.classList.add('buttonhindiClicked');
+        await filterByLanguage(language, selectedCity);
+    }
+}
+
+async function filterByLanguage(language, selectedCity) {
+    try {
+        const response = await fetch(`/get_movies_by_language/${selectedCity}/${language}`);
+        const data = await response.json();
+        displayMovies(data);
+    } catch (error) {
+        console.error('Error filtering movies by language:', error);
+    }
+}
+
+
+
+
+
+
+
+// Function to handle search input
+document.getElementById('search').addEventListener('input', function(event) {
+    const query = event.target.value.trim();
+    const city = document.getElementById('selectedCity').innerText; // Get the selected city name
+    if (query.length > 0) {
+        searchMovies(query, city); // Pass both query and city to searchMovies function
+    } else {
+        document.getElementById('searchResults').innerHTML = ''; // Clear search results if query is empty
+    }
+});
+
+// Function to search for movies
+async function searchMovies(query, city) {
+    try {
+        const response = await fetch(`/search_movies/${query}/${city}/`); // Adjusted URL
+        const data = await response.json();
+        displaySearchResults(data);
+    } catch (error) {
+        console.error('Error searching movies:', error);
+    }
+}
+// Function to display search results
+function displaySearchResults(results) {
+    const searchResults = document.getElementById('searchResults');
+    searchResults.innerHTML = '';
+    
+    if (results.message) {
+        // If a message is returned, display it in the search results div
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('search-result', 'search-result-message'); // Apply custom class
+        messageElement.textContent = results.message;
+        searchResults.appendChild(messageElement);
+    } else if (results.length > 0) {
+        // If movies are found, display them in the search results div
+        results.forEach(movie => {
+            const searchResult = document.createElement('div');
+            searchResult.classList.add('search-result');
+            searchResult.innerHTML = `
+                <img src="${movie.image}" alt="${movie.name}">
+                <span>${movie.name}</span>
+            `;
+            // Add click event listener to each card
+            searchResult.addEventListener('click', function() {
+                window.location.href = `/movie-details/${movie.name}`;
+            });
+            searchResults.appendChild(searchResult);
+        });
+    } else {
+        // If no message or movies are found, display a default message
+        const defaultMessage = document.createElement('div');
+        defaultMessage.classList.add('search-result', 'search-result-message'); // Apply custom class
+        defaultMessage.textContent = 'No movies found.';
+        searchResults.appendChild(defaultMessage);
+    }
+
+    // Show search results
+    searchResults.style.display = 'block';
+}
+
+// Event listener to hide search results and clear input text box when clicking outside the search results
+document.addEventListener('click', function(event) {
+    const searchResults = document.getElementById('searchResults');
+    const searchInput = document.getElementById('search');
+
+    // Check if the click target is outside the search results container and the search input
+    if (!searchResults.contains(event.target) && event.target !== searchInput) {
+        // Hide search results
+        searchResults.style.display = 'none';
+        // Clear input text box
+        searchInput.value = '';
+    }
+});
+
+
+window.addEventListener('pageshow', function(event) {
+    const searchResults = document.getElementById('searchResults');
+    const searchInput = document.getElementById('search');
+
+    // Hide search results and clear input text box
+    searchResults.style.display = 'none';
+    searchInput.value = '';
+});
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

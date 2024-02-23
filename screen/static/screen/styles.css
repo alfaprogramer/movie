@@ -1,0 +1,360 @@
+.blackbar{
+    background: black;
+    width: 100%;
+    height: 110px;
+   
+    
+    
+}
+.title{
+    color: white;
+    font-size: 64px;
+    font-weight: bolder;
+    margin-left: 50px;
+    
+
+}
+
+
+.search{
+    
+    width: 642px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: lighter;
+    margin-left: 150px;
+    border: none; /* Remove default border */
+    box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.8); /* Add inset box-shadow with top-left inner shadow effect and opacity */
+    text-indent: 70px; 
+    transition: background-color 0.3s ease; /* Add transition for smooth color change */
+    
+}
+.search:focus {
+    outline: none; /* Remove focus outline */
+    background-color: rgb(240, 206, 14); /* Change background color on focus */
+    
+}
+
+
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-toggle {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 150px;
+    margin-bottom: 10px;
+    width: 225px;
+    
+    font-size: 20px; /* Adjust font size */
+    font-weight: lighter;
+    border-radius: 12px;
+    border: none;
+    box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.8);
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin-left: 150px;
+    
+    list-style: none;
+    max-height: 130px;
+    overflow-y: auto;
+    width: 225px;
+   
+    
+  }
+  
+  .dropdown-menu li {
+    padding: 10px;
+    cursor: pointer;
+    height: 42px;
+    line-height: 22px;
+    font-size: 20px; /* Adjust font size */
+    font-weight: lighter;
+  }
+  
+  .dropdown-menu li:hover {
+    background-color: rgb(240, 206, 14); 
+  }
+
+
+.dropdown-toggle:focus {
+    /* Add styles for focus state */
+    background-color: rgb(240, 206, 14);
+    outline: none; /* Remove outline */
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+.crousalC {
+    background-color: rgba(217, 217, 217, 1);
+    width: 100%;
+    height: 326px;
+    position: relative;
+    z-index: 3;
+}
+
+.crousalA {
+    background-color: rgba(217, 217, 217, 1);
+    width: 100%;
+    height: 326px;
+    position: absolute;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.crousalB {
+    background-color: rgba(217, 217, 217, 1);
+    width: 100%;
+    height: 326px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    overflow-x: hidden;
+    white-space: nowrap;
+    position: absolute;
+    z-index: 1;
+}
+
+.crousalB img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.crousalB img:first-child {
+    opacity: 1;
+}
+
+.slider-nav {
+    display: flex;
+    column-gap: 2rem;
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.nav-link {
+    width: 1rem;
+    height: 0.5rem; /* Adjust the height as desired */
+    border-radius: 20%;
+    background-color: rgb(248, 248, 245);
+    opacity: 0.75;
+    transition: opacity ease 250ms;
+    position: relative;
+    z-index: 3;
+    border: 2px solid #080808; /* Example border style */
+}
+
+.nav-link:hover {
+    opacity: 1;
+    background-color: rgb(240, 206, 14);
+}
+
+
+
+
+
+
+
+.main{
+    color: black;
+    font-size: 48px;
+    font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) ;
+    margin-left: 76px;
+    margin-top: 28px;
+}
+
+.container{
+  display: flex; /* Use flexbox */
+  justify-content: left; /* Center the items horizontally */
+  margin-left: 1px;
+}
+
+.buttonhindi {
+    width: 160px;
+    height: 40px;
+    background-color: #131313; /* Use a color from your website's color scheme */
+    color: #fff; /* Text color */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    border: none; /* Remove border */
+    border-radius: 14px; /* Rounded corners */
+    padding: 10px 20px;
+    margin-left: 60px;
+    margin-top: 28px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s; /* Added transform */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    perspective: 1000px; /* Perspective for 3D effect */
+}
+
+.buttonhindi:hover {
+    color: #f3c808; /* Text color */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    transform: rotateY(10deg) rotateX(-5deg) translateZ(5px); /* 3D rotation and translation */
+}
+
+.buttonhindiClicked {
+    color: #f3c808; /* Text color */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    transform: rotateY(10deg) rotateX(-5deg) translateZ(5px); /* 3D rotation and translation */
+}
+
+
+
+.end{
+    background: #000;
+    width: 100%;
+    height: 275px;
+color: white;
+font-size: 20px;
+    margin-top: 80px;
+    font-weight: lighter;
+}
+
+.card{
+    margin-top: 80px;
+    width: 292px;
+    height: 432px;
+    margin-left: 76px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Add shadow effect */
+    border-radius: 10px;
+    overflow: hidden; /* Ensure border-radius is applied correctly */
+    transition: all 0.3s ease; /* Add transition for smooth effect */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Increase size on hover */
+}
+
+
+.pp {
+    margin-left: 76px;
+    margin-top: 80px;
+}
+
+
+.card .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 100%);
+    height: 275px;
+    color: white;
+  }
+  
+.card .overlay p {
+    margin-top: 220px;
+    
+    text-align: center;
+    
+  }
+
+
+
+
+ 
+
+
+
+
+
+
+
+  #searchResults {
+    display: none;
+    position: absolute;
+    width: 642px;
+    margin-left: 370px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 999;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    border-radius: 12px;
+}
+
+.search-result {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.search-result img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.search-result span {
+    font-size: 16px; /* Adjust font size */
+    color: #333; /* Set text color */
+    /* Add any additional styling as needed */
+    margin-left: 50px;
+}
+
+.search-result:hover {
+    background-color: #f3c808;
+    
+}
+
+.search-result-message {
+    font-size: 16px; /* Adjust the font size as needed */
+    color: black; /* Set the color to black */
+}
+
+.search-result-message:hover {
+    background-color: initial; /* Reset background color on hover */
+    /* Add any other styles specific to the message hover state */
+}
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
