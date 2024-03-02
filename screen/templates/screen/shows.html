@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,36 +90,99 @@
 <h1>Screen</h1>
 <div class="container">
     <div class="navbar">
-        <div class="date-box">24</div>
-        <div class="date-box">25</div>
-        <div class="date-box">26</div>
-        <div class="date-box">27</div>
-        <div class="date-box">28</div>
+        <!-- Loop through dates and display them -->
+        {% for date in dates %}
+    {% comment %} Convert the date to YYYY-MM-DD format {% endcomment %}
+    {% with formatted_date=date|date:"Y-m-d" %}
+        <div class="date-box" onclick="filterShowsByDate('{{ formatted_date }}')">
+            {{ date }}
+        </div>
+    {% endwith %}
+{% endfor %}
     </div>
 
+    <!-- Loop through cinema halls -->
+{% for cinema_hall in cinema_halls %}
     <div>
-        <h2>Theatre A</h2>
-        <div class="show-container">
-            <div class="show-box">Show 1: 10:00 AM</div>
-            <div class="show-box">Show 2: 2:00 PM</div>
-            <div class="show-box">Show 3: 6:00 PM</div>
+        <h2>{{ cinema_hall.name }}</h2>
+        <div class="show-container" id="show-container-{{ cinema_hall.id }}">
+            <!-- Loop through shows for each cinema hall -->
+            {% for show in shows %}
+                {% if show.cinemahall == cinema_hall %}
+                    <div class="show-box">
+                        Show: {{ show.timings }}
+                        <br>
+                         ₹ {{ show.price }} 
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
-    <div>
-        <h2>Theatre B</h2>
-        <div class="show-container">
-            <div class="show-box">Show 1: 11:00 AM</div>
-            <div class="show-box">Show 2: 3:00 PM</div>
-            <div class="show-box">Show 3: 7:00 PM</div>
-        </div>
-    </div>
-</div>
+{% endfor %}
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Remove overflow:hidden from body after animation finishes
     document.querySelector('.container').addEventListener('animationend', function() {
         document.body.style.overflow = 'auto';
     });
+
+
+
+  
+    function filterShowsByDate(date) {
+        const movieName = '{{ movie_name }}'; // Replace with actual movie name
+        const city = '{{ request.GET.city }}'; // Replace with actual city name
+
+        $.ajax({
+            url: `/shows/${movieName}/filter/${date}/?city=${city}`,
+            type: 'GET',
+            success: function(response) {
+                // Clear existing show containers
+                $('.show-container').empty();
+
+                // Loop through the filtered shows and display them
+                response.shows.forEach(function(show) {
+                    const showBox = `<div class="show-box">Show: ${show.timings} <br>
+                         ₹ ${ show.price } </div>`;
+                    $('#show-container-' + show.cinemahall_id).append(showBox);
+                });
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(errmsg);
+            }
+        });
+    }
+
+
+       // Automatically select the first date when the page loads
+    $(document).ready(function() {
+    // Change the text color of the first date-box element
+    $('.date-box:first').css('color', '#f3c808');
+
+    // Trigger click event on the first date-box element
+    $('.date-box:first').click();
+});
+
+
+
+ $(document).ready(function() {
+    // Trigger click event on the first date-box element
+    $('.date-box:first').click();
+
+    // Click event handler for date-box elements
+    $('.date-box').click(function() {
+        // Remove text color from all date-box elements
+        $('.date-box').css('color', '');
+
+        // Set text color for the clicked date-box element
+        $(this).css('color', '#f3c808');
+
+        // Call filterShowsByDate function with the clicked date
+        const date = $(this).text().trim();
+        filterShowsByDate(date);
+    });
+});
 </script>
 
 </body>

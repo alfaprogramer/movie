@@ -142,7 +142,7 @@
     top: 0;
     left: 0;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 2s ease;
 }
 
 .crousalB img:first-child {
@@ -354,7 +354,116 @@ font-size: 20px;
 
 
 
+.seatbody {
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items vertically */
+    padding: 20px;
+}
+
+.S-infodiv {
+    color: white;
+    font-size: 64px;
+    font-weight: bolder;
+    margin-bottom: 20px; /* Add margin to separate from themain */
+}
+
+.S-infodiv p {
+    color: white;
+    font-size: 20px;
+    font-weight: lighter;
+    margin: 0;
+}
+
+.S-container {
+    display: flex;
+    justify-content: space-between; /* Ensure the children divs are spaced apart */
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px; /* Gap between the children divs */
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between; /* Space out the divs inside main-container */
+    gap: 200px; /* Gap between themain and xo */
+}
+
+.themain {
+    display: flex;
+    gap: 170px;
+}
+
+.S-part1,
+.S-part2 {
+    display: flex;
+    flex-direction: column; /* Set to column to stack seats vertically */
+    gap: 20px;
+}
+
+.S-i1 {
+    display: flex;
+    gap: 20px;
+}
+
+.seat {
+    background-color: #808080;
+    font-size: 15px;
+    color: white;
+    padding: 10px;
+    height: 50px;
+    width: 50px;
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    text-align: center; /* Center text horizontally */
+    border-radius: 12px;
+}
+
+.thecart {
+    margin-top: 80px; /* Add margin to separate it from themain */
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+}
+
+.S-i2 {
+    display: flex;
+    flex-direction: row; /* Arrange seats in a row */
+    gap: 20px; /* Gap between seats */
+    margin-bottom: 20px; /* Add margin to separate rows */
+}
+
+.line {
+    height: 3px;
+    width: 1000px;
+    background-color: #fff ;
+    box-shadow: 0 0 100px #03bcf4;
+    
+    
+/* Set background-color to transparent */
+    margin-top: 70px;
+}
+
+
+.line {
+    height: 3px;
+    width: 1000px;
+    background-color: #fff; /* Set background-color to white */
+    margin-top: 70px;
+    box-shadow: 0 0 50px 10px #03bcf4,  0 0 300px 40px #03bcf4,0 0 600px 40px #03bcf4,0 0 1000px 50px #03bcf4;/* Adjust spread radius and blur radius */
+}
 
 
 
+.text {
+    color: white;
+    font-size: 30px;
+    margin-top: 10px;
+}
 
+.xo {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+}

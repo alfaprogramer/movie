@@ -208,38 +208,19 @@
                     </div>
                 {% endfor %}
             </div>
-            <button class="book-ticket" type="button" onclick="navigateToShowPage()" >Book Ticket</button>
+            <button class="book-ticket" type="button" onclick="navigateToShowPage('{{ movie.name }}')">Book Ticket</button>
         </div>
     </div>
 <script>
+     function navigateToShowPage(movieName) {
+      const urlParams = new URLSearchParams(window.location.search);
+    const city = urlParams.get('city');
+
+    // Redirect to shows.html with both city and movie_name parameters
+    window.location.href = `/shows/${encodeURIComponent(movieName)}/?city=${city}`;
+}
+
      
-function navigateToShowPage() {
-    // Get movie name and city from the URL or any other source
-    var movieName = '{{ movie.name }}'; // Get movie name from the backend
-    var cityName = '{{ city }}'; // Get city name from the backend
-    
-    // Create a form element
-    var form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', '/shows/'); // Adjust the action URL if needed
-
-    // Create hidden input fields for movie name and city
-    var movieInput = document.createElement('input');
-    movieInput.setAttribute('type', 'hidden');
-    movieInput.setAttribute('name', 'movie');
-    movieInput.setAttribute('value', movieName);
-    form.appendChild(movieInput);
-
-    var cityInput = document.createElement('input');
-    cityInput.setAttribute('type', 'hidden');
-    cityInput.setAttribute('name', 'city');
-    cityInput.setAttribute('value', cityName);
-    form.appendChild(cityInput);
-
-    // Append the form to the document body and submit it
-    document.body.appendChild(form);
-    form.submit();
-}    
   
 </script>
 </body>

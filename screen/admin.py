@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Actor, Movie, City, CinemaHall, Show, Language, Aged
+from .models import Actor, Movie, City, CinemaHall, Show, Language, Aged,SeatingConfiguration
 
 @admin.register(Actor)
 class ActorAdmin(admin.ModelAdmin):
@@ -26,10 +26,13 @@ class CityAdmin(admin.ModelAdmin):
 class CinemaHallAdmin(admin.ModelAdmin):
     list_display = ('name', 'city')
 
+@admin.register(SeatingConfiguration)
+class SeatingConfiguration(admin.ModelAdmin):
+    list_display=('theater','seat_name', 'seat_price')
 
 @admin.register(Show)
 class ShowAdmin(admin.ModelAdmin):
-    list_display = ('movie', 'cinemahall', 'city' , 'timings','date','NumOfSeats')
+    list_display = ('movie', 'cinemahall', 'city' , 'timings','date','price')
 
 
 

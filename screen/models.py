@@ -45,15 +45,28 @@ class City(models.Model):
     def __str__(self):
        
         return self.name
+    
+
+
+   
 
 class CinemaHall(models.Model):
     name = models.CharField(max_length=200)
     city = models.ForeignKey(City, on_delete=models.CASCADE, default=1)
+    
 
     def __str__(self):
         return self.name 
 
 
+
+class SeatingConfiguration(models.Model):
+    theater = models.ForeignKey('CinemaHall', on_delete=models.CASCADE)
+    seat_name = models.CharField(max_length=5)  # Example: 'A1', 'B2', etc.
+    seat_price = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        return f"Seating Configuration for {self.theater.name}"
 
 class Show(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
@@ -61,10 +74,11 @@ class Show(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     timings = models.CharField(max_length=100)
     date = models.DateField(default=date.today)
-    NumOfSeats = models.BigIntegerField(default=200)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
-        return f"{self.movie.name} - {self.cinemahall.name} - {self.timings} - {self.date} - {self.NumOfSeats}"
+        return f"{self.movie.name} - {self.cinemahall.name} - {self.timings} - {self.date} - {self.price}"
+
     
 
 

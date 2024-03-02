@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_list_or_404
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
-from .models import Movie,City,Show
+from .models import Movie,City,Show,CinemaHall,SeatingConfiguration
 from django.http import JsonResponse,HttpResponse
 from django.shortcuts import get_object_or_404
 import logging
@@ -86,5 +86,49 @@ def movie_details(request, movie_name):
     except Movie.DoesNotExist:
         # Handle case where movie doesn't exist
         return HttpResponse("Movie not found", status=404)
+
+
+def shows(request, movie_name):
+    selected_city = request.GET.get('city')
+    
+    shows = Show.objects.filter(movie__name=movie_name, city__name=selected_city)
+    dates = shows.values_list('date', flat=True).distinct()
+    cinema_halls = CinemaHall.objects.filter(show__in=shows).distinct()
+    
+    # Pass movie_name to the template context
+    return render(request, 'screen/shows.html', {'movie_name': movie_name, 'shows': shows, 'dates': dates, 'cinema_halls': cinema_halls})
+
+
+
+
+def filter_shows_by_date(request, movie_name, selected_date):
+    selected_city = request.GET.get('city')
+    
+    # Filter shows based on movie name, city, and selected date
+    shows = Show.objects.filter(movie__name=movie_name, city__name=selected_city, date=selected_date)
+    
+    # Prepare data to be sent as JSON response
+    shows_data = list(shows.values())
+
+    response = {
+        'shows': shows_data,
+        'selected_date': selected_date,
+    }
+
+    return JsonResponse(response)
+
+
+
+def show_seating_configuration(request, theater_id=None):
+    if theater_id is not None:
+        seating_configurations = SeatingConfiguration.objects.filter(theater_id=theater_id)
+        return render(request, 'screen/seats.html', {'seating_configurations': seating_configurations})
+    else:
+        # Handle the case when theater_id is not provided
+        return render(request, 'error.html', {'message': 'Theater ID is missing.'})
+    
+
+def seats(request):
+    return render(request,'screen/seats.html')
 
 

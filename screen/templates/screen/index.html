@@ -39,12 +39,12 @@
             <img id="slide3" src="{% static 'screen/batman.jpg'%}" alt="image">
         </div>
         <div class="slider-nav">
-            <a href="#" class="nav-link" data-slide="slide1"></a>
-            <a href="#" class="nav-link" data-slide="slide2"></a>
-            <a href="#" class="nav-link" data-slide="slide3"></a>
+            <a href="#" class="nav-link" data-slide="slide1" onclick="showSlide('slide1'); return false;"></a>
+            <a href="#" class="nav-link" data-slide="slide2" onclick="showSlide('slide2'); return false;"></a>
+            <a href="#" class="nav-link" data-slide="slide3" onclick="showSlide('slide3'); return false;"></a>
         </div>
     </div>
-</div> 
+</div>
 
 
 
@@ -78,6 +78,45 @@ on this website is intented to promote the works and no endosments of the artist
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+   let currentIndex = 0;
+    const slides = document.querySelectorAll('.crousalB img');
+    const totalSlides = slides.length;
+
+    function showSlide(slideId) {
+        const slideIndex = slideId.substring(5); // Extract the slide number from the slideId
+        currentIndex = parseInt(slideIndex) - 1;
+        showCurrentSlide();
+    }
+
+    function showCurrentSlide() {
+        slides.forEach((slide, index) => {
+            if (index === currentIndex) {
+                slide.style.opacity = 1;
+            } else {
+                slide.style.opacity = 0;
+            }
+        });
+    }
+
+    function moveCarousel() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        showCurrentSlide();
+    }
+
+    // Auto move carousel every 5 seconds
+    setInterval(moveCarousel, 3000);
+
+
+
+
+
+
+
+
+
+
+
+
 // Function to toggle dropdown menu
 function toggleDropdown() {
     var dropdownMenu = document.querySelector('.dropdown-menu');
@@ -131,7 +170,7 @@ function displayMovies(movies) {
         `;
         // Add click event listener to each card
        card.addEventListener('click', function() {
-    window.location.href = `/movie-details/${movie.name}/?city=${encodeURIComponent(selectedCity)}`;
+      window.location.href = `/movie-details/${movie.name}/?city=${encodeURIComponent(selectedCity)}`;
 });
         movieList.appendChild(card);
     });
@@ -297,9 +336,9 @@ function displaySearchResults(results) {
                 <span>${movie.name}</span>
             `;
             // Add click event listener to each card
-            searchResult.addEventListener('click', function() {
-                window.location.href = `/movie-details/${movie.name}`;
-            });
+  searchResult.addEventListener('click', function() {
+      window.location.href = `/movie-details/${movie.name}/?city=${encodeURIComponent(selectedCity)}`;
+});
             searchResults.appendChild(searchResult);
         });
     } else {
