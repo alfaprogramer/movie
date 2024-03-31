@@ -14,11 +14,20 @@
 <div class="S-container">
 <div class="S-infodiv">
 Screen
-<p> Movie name<br>
-City<br>
-Cinema hall<br>
-date</p>
+   <p> 
+        Movie name: {{ movie_name }} <br>
+        City: {{ city_name }} <br>
+        Cinema hall: {{ cinema_hall.name }} <br>
+        Date: {{ show.date }} <br>
+        Show timings: {{ show.timings }} <br>
+        <!-- Add other relevant show information here -->
+    </p>
+   <div class="S-book-button" id="book-button">
+    Book Now
 </div>
+</div>
+
+
 
 
 <div class="xo">
@@ -78,8 +87,8 @@ date</p>
         <div class="seat">H8<br> ₹170</div>
         <div class="seat">H9<br> ₹170</div>
         <div class="seat">H10<br> ₹170</div>
-
     </div>
+
     <div class="S-i2">
         <div class="seat">G1<br> ₹170</div>
         <div class="seat">G2<br> ₹170</div>
@@ -91,8 +100,9 @@ date</p>
         <div class="seat">G8<br> ₹170</div>
         <div class="seat">G9<br> ₹170</div>
         <div class="seat">G10<br> ₹170</div>
-
     </div>
+
+
     <div class="S-i2">
         <div class="seat">F1<br> ₹170</div>
         <div class="seat">F2<br> ₹170</div>
@@ -104,8 +114,9 @@ date</p>
         <div class="seat">F8<br> ₹170</div>
         <div class="seat">F9<br> ₹170</div>
         <div class="seat">F10<br> ₹170</div>
-
     </div>
+
+
 
 
 </div>
@@ -189,11 +200,102 @@ date</p>
 <div class="line">
 </div>
 <div class="text">
-    Screen this way 
-</div>
-</div>
- </div>
 
+
+
+    Screen this way 
+
+
+
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Replace seat prices dynamically
+    $('.seat').each(function() {
+        const seatText = $(this).html(); // Get the HTML content of the seat element
+        const seatLabel = seatText.split('<br>')[0]; // Extract the seat label
+        const seatPrice = parseInt(seatText.split('₹')[1]); // Extract the price from the HTML content
+
+        // Find the corresponding price range from the model
+        let newPrice;
+        if (seatPrice === 120) {
+            newPrice = '{{ show.minP|stringformat:".0f" }}'; // Replace with the minP value from the context
+        } else if (seatPrice === 170) {
+            newPrice = '{{ show.avgP|stringformat:".0f" }}'; // Replace with the avgP value from the context
+        } else if (seatPrice === 200) {
+            newPrice = '{{ show.maxP|stringformat:".0f" }}'; // Replace with the maxP value from the context
+        } else {
+            newPrice = seatPrice; // Keep the original price if it doesn't match any condition
+        }
+
+        // Update the seat element with the new price
+        $(this).html(`${seatLabel}<br>₹${newPrice}`);
+    });
+});
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const seats = document.querySelectorAll('.seat');
+    const bookButton = document.getElementById('book-button');
+
+    seats.forEach(seat => {
+        seat.addEventListener('click', function() {
+            this.classList.toggle('selected');
+            updateBookButtonVisibility();
+        });
+    });
+
+    bookButton.addEventListener('click', function() {
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        if (selectedSeats.length > 0) {
+            const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.textContent.split('<br>')[0].trim());
+            const movieName = "{{ movie_name }}";
+            const cityName = "{{ city_name }}";
+            const cinemaHallName = "{{ cinema_hall.name }}";
+            const date = "{{ show.date }}";
+            const timings = "{{ show.timings }}";
+            const imageUrl = getUrlParameter('image'); // Get image URL from URL parameters
+
+            // Construct the query string with all parameters including the image URL
+            const queryString = `?movie=${encodeURIComponent(movieName)}&city=${encodeURIComponent(cityName)}&cinema_hall=${encodeURIComponent(cinemaHallName)}&date=${encodeURIComponent(date)}&timings=${encodeURIComponent(timings)}&seats=${encodeURIComponent(selectedSeatNumbers.join(','))}&image=${encodeURIComponent(imageUrl)}`;
+
+            // Redirect to the booking page with the constructed query string
+            window.location.href = "{% url 'book' %}" + queryString;
+        }
+    });
+
+    function updateBookButtonVisibility() {
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        if (selectedSeats.length > 0) {
+            bookButton.style.display = 'block';
+        } else {
+            bookButton.style.display = 'none';
+        }
+    }
+
+    // Function to get URL parameters by name
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        const results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+});
+
+
+
+
+
+
+
+  
+</script>
 
 </body>
 </html>

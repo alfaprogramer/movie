@@ -32,7 +32,7 @@ class SeatingConfiguration(admin.ModelAdmin):
 
 @admin.register(Show)
 class ShowAdmin(admin.ModelAdmin):
-    list_display = ('movie', 'cinemahall', 'city' , 'timings','date','price')
+    list_display = ('movie', 'cinemahall', 'city' , 'timings','date','minP','avgP','maxP')
 
 
 

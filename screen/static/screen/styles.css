@@ -418,7 +418,22 @@ font-size: 20px;
     align-items: center; /* Center content vertically */
     text-align: center; /* Center text horizontally */
     border-radius: 12px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
+
+.seat:hover {
+    background-color: #efeca7; /* Darker color on hover */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Increase shadow size on hover */
+    color: #000;
+    cursor: pointer;
+}
+
+.seat.selected {
+    background-color: yellow;
+    color: black;
+}
+
 
 .thecart {
     margin-top: 80px; /* Add margin to separate it from themain */
@@ -467,3 +482,292 @@ font-size: 20px;
     flex-direction: column;
     align-items: center; /* Center content horizontally */
 }
+
+
+.S-book-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 170px;
+    display: none;
+    font-size: 30px;
+    text-align: center; /* Center the text */
+    
+}
+
+.S-book-button:hover {
+    background-color: white;
+    color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bodyseats-2{
+    background-color: black;
+
+}
+
+.infodiv-2{
+    color: white;
+    font-size: 64px;
+    font-weight: bolder;
+    align-items: center;
+    margin-left: 700px;
+    height: fit-content;
+    width: fit-content;
+
+
+}
+
+
+.infodiv-2 p {
+    color: white;
+    font-size: 20px;
+    font-weight: lighter;
+    margin: 0;
+    align-items: center;
+   
+}
+
+.block{margin-top: 20px;
+    width: fit-content;
+    height: fit-content;
+    margin-left: 75px;
+}
+
+.S-row {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px; /* Adjust the gap as needed */
+    font-weight: lighter;
+}
+
+.line2{
+    align-items: center;
+    height: 3px;
+    width: 1400px;
+    background-color: #fff; /* Set background-color to white */
+    margin-top: 70px;
+    box-shadow: 0 0 50px 10px #03bcf4,  0 0 300px 40px #03bcf4,0 0 600px 40px #03bcf4,0 0 1000px 50px #03bcf4;/* Adjust spread radius and blur radius */
+}
+
+.text2{
+    color: white;
+    font-size: 30px;
+    margin-top: 10px;
+    align-items: center;
+    margin-left: 550px;
+}
+
+
+.inforow{
+    display: flex;
+    flex-direction: row;
+
+}
+
+
+
+
+
+
+.S-book-button2 {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 100px;
+    margin-left: 180px;
+    display: none;
+    font-size: 30px;
+    height: fit-content;
+    text-align: center; /* Center the text */
+    
+}
+
+.S-book-button2:hover {
+    background-color: white;
+    color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ticket-booking-body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.booking-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+.booking-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.booking-details {
+    padding: 20px;
+}
+
+.booking-info {
+    margin-bottom: 20px;
+}
+
+.booking-info p {
+    margin: 0;
+    padding: 5px 0;
+}
+
+
+.coupon input {
+    width: calc(100% - 80px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.coupon button {
+    width: 80px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #000;
+    color: #fff;
+    
+}
+
+#pay-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #000;
+    color: #fff;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+#pay-button:hover {
+    background-color: #6307a1;
+}
+
+.horizontal-image {
+    float: right;
+    margin-top: 20px;
+    margin-left: 20px;
+    max-width: 300px;
+    height: auto;
+}
+
+.bookingrow{
+    display: flex;
+    flex-direction: row;
+    height: 320px;
+}
+
+
+.cost{
+    font-size: 50px;
+}
+
+
+
+.horizontal-image {
+    width: 210px; /* Adjust the width as needed */
+    height: 310px; /* Adjust the height as needed */
+    background-image: url("{% static 'screen/tenet.jpg'%}");
+    background-size: cover;
+    background-position: center;
+    margin-top: 0px;
+    float: right;
+    margin-left: 180px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+}
+
+
+
+

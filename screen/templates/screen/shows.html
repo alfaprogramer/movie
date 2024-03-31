@@ -109,10 +109,10 @@
             <!-- Loop through shows for each cinema hall -->
             {% for show in shows %}
                 {% if show.cinemahall == cinema_hall %}
-                    <div class="show-box">
+                    <div class="show-box" data-cinema_hall_id="{{ cinema_hall.id }}" data-show_id="{{ show.id }}" >
                         Show: {{ show.timings }}
                         <br>
-                         ₹ {{ show.price }} 
+                         ₹ {{ show.minP }} 
                     </div>
                 {% endif %}
             {% endfor %}
@@ -120,7 +120,9 @@
     </div>
 {% endfor %}
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     // Remove overflow:hidden from body after animation finishes
     document.querySelector('.container').addEventListener('animationend', function() {
@@ -142,17 +144,59 @@
                 $('.show-container').empty();
 
                 // Loop through the filtered shows and display them
-                response.shows.forEach(function(show) {
-                    const showBox = `<div class="show-box">Show: ${show.timings} <br>
-                         ₹ ${ show.price } </div>`;
-                    $('#show-container-' + show.cinemahall_id).append(showBox);
-                });
+response.shows.forEach(function(show) {
+    const showBox = `<div class="show-box" data-show-id="${show.id}" data-cinema-hall-id="${show.cinemahall_id}" data-movie-name="${movieName}" data-city-name="${city}">Show: ${show.timings} <br> ₹ ${ show.minP } </div>`;
+    $('#show-container-' + show.cinemahall_id).append(showBox);
+});
+
+
+
+$(document).ready(function() {
+    // Extract image URL from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const imageUrl = urlParams.get('image');
+
+    // Click event handler for show boxes
+    $('.show-box').click(function(event) {
+        event.preventDefault(); // Prevent default behavior
+
+        const showId = $(this).data('show-id');
+        const cinemaHallId = $(this).data('cinema-hall-id');
+        const movieName = $(this).data('movie-name');
+        const cityName = $(this).data('city-name');
+
+        let redirectUrl = ''; // Initialize the redirect URL variable
+
+        // Check conditions to determine the redirect URL
+        if (cinemaHallId === 1) { // Replace 1 with the ID of the cinema hall for seats.html
+            redirectUrl = `/seats/?show_id=${showId}&cinema_hall_id=${cinemaHallId}&movie_name=${encodeURIComponent(movieName)}&city_name=${encodeURIComponent(cityName)}&image=${encodeURIComponent(imageUrl)}`;
+        } else {
+            redirectUrl = `/seats2/?show_id=${showId}&cinema_hall_id=${cinemaHallId}&movie_name=${encodeURIComponent(movieName)}&city_name=${encodeURIComponent(cityName)}&image=${encodeURIComponent(imageUrl)}`;
+        }
+
+        // Redirect to the appropriate seats page
+        window.location.href = redirectUrl;
+    });
+});
+             
+
+
             },
             error: function(xhr, errmsg, err) {
                 console.log(errmsg);
             }
         });
     }
+
+
+
+
+
+
+
+
+
+   
 
 
        // Automatically select the first date when the page loads
@@ -182,7 +226,15 @@
         const date = $(this).text().trim();
         filterShowsByDate(date);
     });
+
 });
+
+
+ 
+
+
+    
+
 </script>
 
 </body>

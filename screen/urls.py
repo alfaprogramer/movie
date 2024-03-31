@@ -16,7 +16,9 @@ urlpatterns = [
   
   path('shows/<str:movie_name>/', views.shows, name='shows'),
   path('shows/<str:movie_name>/filter/<str:selected_date>/', views.filter_shows_by_date, name='filter_shows_by_date'),
- path('seats',views.seats, name='seats' ) 
+ path('seats/',views.seats, name='seats' ) ,
+ path('seats2/',views.seats2, name="seats2"),
+ path('book', views.book, name="book")
 ] 
 
 # Serve uploaded media files during development

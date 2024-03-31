@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="{% static 'screen/styles.css' %}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+  <body class="ticket-booking-body">
+    <div class="booking-container">
+        <div class="booking-header">
+            <h1>Confirm Your Booking</h1>
+        </div>
+        <div class="booking-details">
+        <div class="bookingrow">
+            <div class="booking-info">
+                  <p><strong>Movie:</strong> <span id="movie-name"></span></p>
+                    <p><strong>City:</strong> <span id="city-name"></span></p>
+                    <p><strong>Cinema Hall:</strong> <span id="cinema-hall"></span></p>
+                    <p><strong>Date:</strong> <span id="date"></span></p>
+                    <p><strong>Show Timings:</strong> <span id="show-timings"></span></p>
+                    <p><strong>Selected Seats:</strong> <span  id="selected-seats" ></span></p>
+                    <p><strong>Total Cost:</strong> <span id="total-cost"></span></p>
+                    <p><strong>Convenience Fee:</strong> <span id="convenience-fee"></span></p>
+                    <p><strong>Sum Total:</strong> <span id="sum-total"></span></p>
+
+            </div>
+            <div class="horizontal-image">
+             <img id="movie-image" src="" alt="Horizontal Image" class="horizontal-image">
+            </div>
+        </div>    
+            <!-- Coupon Code Input -->
+            <div class="coupon">
+                <input type="text" placeholder="Enter Coupon Code">
+                <button id="apply-coupon">Apply</button>
+            </div>
+            <!-- Pay Button -->
+            <button id="pay-button">Pay Now</button>
+        </div>
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      window.onload = function() {
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("movie-name").textContent = params.get('movie');
+    document.getElementById("city-name").textContent = params.get('city');
+    document.getElementById("cinema-hall").textContent = params.get('cinema_hall');
+    document.getElementById("date").textContent = params.get('date');
+    document.getElementById("show-timings").textContent = params.get('timings');
+
+    // Display selected seats without costs
+    const selectedSeats = params.get('seats').split(',');
+    const seatNames = selectedSeats.map(seat => seat.split('₹')[0]); // Remove the cost part
+    document.getElementById("selected-seats").textContent = seatNames.join(', ');
+
+    // Calculate and display total cost
+    const totalCost = calculateTotalCost(selectedSeats); // Assuming you have a function to calculate the total cost
+    document.getElementById("total-cost").textContent = "₹ " + totalCost;
+
+    // Calculate and display convenience fee
+    const convenienceFee = calculateConvenienceFee(selectedSeats.length);
+    document.getElementById("convenience-fee").textContent = "₹ " + convenienceFee;
+
+    // Calculate and display sum total
+    const sumTotal = totalCost + convenienceFee;
+    document.getElementById("sum-total").textContent = "₹ " + sumTotal;
+
+    // Set image source dynamically
+    const imageUrl = params.get('image');
+    document.getElementById("movie-image").src = imageUrl;
+}
+
+// Function to calculate the total cost based on selected seats
+function calculateTotalCost(selectedSeats) {
+    let totalCost = 0;
+    selectedSeats.forEach(seat => {
+        const cost = parseFloat(seat.split('₹')[1]); // Extract the cost part
+        totalCost += cost;
+    });
+    return totalCost;
+}
+
+// Function to calculate the convenience fee based on the number of selected seats
+function calculateConvenienceFee(numSeats) {
+    // Assuming the convenience fee is ₹11.2 per seat
+    return numSeats * 11.2;
+}
+</script>
+</body>
+</html>

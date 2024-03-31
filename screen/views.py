@@ -95,8 +95,8 @@ def shows(request, movie_name):
     dates = shows.values_list('date', flat=True).distinct()
     cinema_halls = CinemaHall.objects.filter(show__in=shows).distinct()
     
-    # Pass movie_name to the template context
-    return render(request, 'screen/shows.html', {'movie_name': movie_name, 'shows': shows, 'dates': dates, 'cinema_halls': cinema_halls})
+    image_url = request.GET.get('image', '')  # Get the image URL from query parameters
+    return render(request, 'screen/shows.html', {'movie_name': movie_name, 'shows': shows, 'dates': dates, 'cinema_halls': cinema_halls, 'image_url': image_url})
 
 
 
@@ -111,6 +111,7 @@ def filter_shows_by_date(request, movie_name, selected_date):
     shows_data = list(shows.values())
 
     response = {
+        'movie_name': movie_name,
         'shows': shows_data,
         'selected_date': selected_date,
     }
@@ -118,17 +119,55 @@ def filter_shows_by_date(request, movie_name, selected_date):
     return JsonResponse(response)
 
 
-
-def show_seating_configuration(request, theater_id=None):
-    if theater_id is not None:
-        seating_configurations = SeatingConfiguration.objects.filter(theater_id=theater_id)
-        return render(request, 'screen/seats.html', {'seating_configurations': seating_configurations})
-    else:
-        # Handle the case when theater_id is not provided
-        return render(request, 'error.html', {'message': 'Theater ID is missing.'})
-    
-
 def seats(request):
-    return render(request,'screen/seats.html')
+    show_id = request.GET.get('show_id')
+    cinema_hall_id = request.GET.get('cinema_hall_id')
+    movie_name = request.GET.get('movie_name')
+    city_name = request.GET.get('city_name')
+    image_url = request.GET.get('image')  # Retrieve image URL from request
+
+    # Retrieve show details
+    show = Show.objects.get(id=show_id)
+
+    # Retrieve cinema hall details
+    cinema_hall = CinemaHall.objects.get(id=cinema_hall_id)
+
+    context = {
+        'show': show,
+        'cinema_hall': cinema_hall,
+        'movie_name': movie_name,
+        'city_name': city_name,
+        'image_url': image_url,  # Pass image URL to the template
+    }
+
+    return render(request, 'screen/seats.html', context)
 
 
+
+
+
+def seats2(request):
+    show_id = request.GET.get('show_id')
+    cinema_hall_id = request.GET.get('cinema_hall_id')
+    movie_name = request.GET.get('movie_name')
+    city_name = request.GET.get('city_name')
+
+    # Retrieve show details
+    show = Show.objects.get(id=show_id)
+
+    # Retrieve cinema hall details
+    cinema_hall = CinemaHall.objects.get(id=cinema_hall_id)
+
+    context = {
+        'show': show,
+        'cinema_hall': cinema_hall,
+        'movie_name': movie_name,  # Pass movie name
+        'city_name': city_name  # Pass city name
+    }
+
+    return render(request, 'screen/seats2.html', context)
+
+
+
+def book(request):
+    return render(request, 'screen/book.html')

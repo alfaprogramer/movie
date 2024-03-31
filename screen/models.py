@@ -74,11 +74,12 @@ class Show(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     timings = models.CharField(max_length=100)
     date = models.DateField(default=date.today)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    minP = models.DecimalField(max_digits=6, decimal_places=2, default=120)
+    avgP = models.DecimalField(max_digits=6, decimal_places=2)
+    maxP = models.DecimalField(max_digits=6, decimal_places=2, default=200)
 
     def __str__(self):
-        return f"{self.movie.name} - {self.cinemahall.name} - {self.timings} - {self.date} - {self.price}"
-
+        return f"{self.movie.name} - {self.cinemahall.name} - {self.timings} - {self.date} - {self.minP} - {self.avgP} - {self.maxP}"
     
 
 

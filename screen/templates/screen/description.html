@@ -188,7 +188,7 @@
         <div class="white-box">
             <div class="movie-details">
                 <div class="movie-poster">
-                    <img src="{{ movie.image.url }}" alt="{{ movie.name }} Poster">
+                    <img id="movie-image" src="{{ movie.image.url }}" alt="{{ movie.name }} Poster">
                 </div>
                 <div class="movie-info">
                     <h1 class="movie-name">{{ movie.name }}</h1>
@@ -212,13 +212,14 @@
         </div>
     </div>
 <script>
-     function navigateToShowPage(movieName) {
-      const urlParams = new URLSearchParams(window.location.search);
-    const city = urlParams.get('city');
+ function navigateToShowPage(movieName) {
+            const imageUrl = document.getElementById('movie-image').src;
+            const urlParams = new URLSearchParams(window.location.search);
+            const city = urlParams.get('city');
 
-    // Redirect to shows.html with both city and movie_name parameters
-    window.location.href = `/shows/${encodeURIComponent(movieName)}/?city=${city}`;
-}
+            // Redirect to shows.html with both city, movie_name, and image parameters
+            window.location.href = `/shows/${encodeURIComponent(movieName)}/?city=${city}&image=${encodeURIComponent(imageUrl)}`;
+        }
 
      
   
