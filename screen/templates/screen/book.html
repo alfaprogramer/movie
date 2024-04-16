@@ -44,8 +44,22 @@
             <!-- Pay Button -->
             <button id="pay-button">Pay Now</button>
         </div>
-        
+     </div>
+
+
+
+         <div id="popup-container" style="display: none;">
+    <div id="popup-box">
+        <span id="close-btn">&times;</span>
+        {% csrf_token %}
+        <input type="email" id="email-input" placeholder="Enter your email">
+        <button id="submit-btn" onclick="submitForm()">Pay</button>
     </div>
+</div>
+<div id="cursor">
+  <div class="inner-circle"></div>
+</div>
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       window.onload = function() {
@@ -93,6 +107,123 @@ function calculateConvenienceFee(numSeats) {
     // Assuming the convenience fee is ₹11.2 per seat
     return numSeats * 11.2;
 }
+
+
+
+document.getElementById('pay-button').addEventListener('click', function() {
+  document.getElementById('popup-container').style.display = 'block';
+});
+
+document.getElementById('close-btn').addEventListener('click', function() {
+  document.getElementById('popup-container').style.display = 'none';
+});
+
+
+
+
+
+
+
+
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+
+
+
+
+
+
+
+function submitForm() {
+
+ document.getElementById('cursor').style.display = 'block';
+
+    var email = document.getElementById('email-input').value;
+    var movie = document.getElementById('movie-name').textContent;
+    var city = document.getElementById('city-name').textContent;
+    var cinemaHall = document.getElementById('cinema-hall').textContent;
+    var date = document.getElementById('date').textContent;
+    var showTimings = document.getElementById('show-timings').textContent;
+    var selectedSeats = document.getElementById('selected-seats').textContent;
+    var totalCost = document.getElementById('total-cost').textContent;
+    var convenienceFee = document.getElementById('convenience-fee').textContent;
+    var sumTotal = document.getElementById('sum-total').textContent;
+
+    var formData = new FormData();
+    formData.append('email', email);
+    formData.append('movie', movie);
+    formData.append('city', city);
+    formData.append('cinemaHall', cinemaHall);
+    formData.append('date', date);
+    formData.append('showTimings', showTimings);
+    formData.append('selectedSeats', selectedSeats);
+    formData.append('totalCost', totalCost);
+    formData.append('convenienceFee', convenienceFee);
+    formData.append('sumTotal', sumTotal);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/submit-form/");
+    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken')); // Ensure CSRF token
+    xhr.send(formData);
+     
+ document.getElementById('popup-container').style.display = 'none';
+   
+    xhr.onload = function() {
+         
+          // Hide the cursor once the XMLHttpRequest is completed
+        document.getElementById('cursor').style.display = 'none';
+        if (xhr.status === 200) {
+            alert("Booking submitted successfully!");
+            // Add further processing here if needed
+        } else {
+            alert("Error: Booking submission failed.");
+        }
+    };
+}
+
+
+
+
+
+
+
+
+
+function showCursor() {
+  document.getElementById('cursor').style.display = 'block';
+  document.getElementById('cursor').style.opacity = '1'; // Make cursor visible
+  document.querySelector('.overlay').style.display = 'block'; // Show overlay
+}
+
+function hideCursor() {
+  document.getElementById('cursor').style.display = 'none';
+  document.getElementById('cursor').style.opacity = '0'; // Hide cursor
+  document.querySelector('.overlay').style.display = 'none'; // Hide overlay
+}
+
+document.getElementById('submit-btn').addEventListener('click', function() {
+  showCursor(); // Show cursor and overlay when submit button is clicked
+});
+
+
+
 </script>
 </body>
 </html>

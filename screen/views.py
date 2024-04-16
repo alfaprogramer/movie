@@ -5,6 +5,7 @@ from .models import Movie,City,Show,CinemaHall,SeatingConfiguration
 from django.http import JsonResponse,HttpResponse
 from django.shortcuts import get_object_or_404
 import logging
+from django.core.mail import send_mail
 
 
 
@@ -171,3 +172,37 @@ def seats2(request):
 
 def book(request):
     return render(request, 'screen/book.html')
+
+
+
+
+
+
+def submit_form(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        # Retrieve other booking details from POST data
+        # Send email using send_mail or any other email sending method
+        
+        # Example using send_mail
+        send_mail(
+            'Booking Confirmation',
+            'Your booking details:\nMovie: {}\nCity: {}\nCinema Hall: {}\nDate: {}\nShow Timings: {}\nSelected Seats: {}\nTotal Cost: {}\nConvenience Fee: {}\nSum Total: {}'.format(
+                request.POST.get('movie'), 
+                request.POST.get('city'), 
+                request.POST.get('cinemaHall'), 
+                request.POST.get('date'), 
+                request.POST.get('showTimings'), 
+                request.POST.get('selectedSeats'), 
+                request.POST.get('totalCost'), 
+                request.POST.get('convenienceFee'), 
+                request.POST.get('sumTotal')
+            ),
+            'adipayal2@gmail.com',
+            [email],
+            fail_silently=False,
+        )
+        
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error'})
