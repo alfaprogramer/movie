@@ -518,133 +518,6 @@ font-size: 20px;
 
 
 
-#popup-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  }
-  
-  #popup-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
-  }
-  
-  #close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: black;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  
-  #close-btn:hover {
-    transform: rotate(90deg);
-  }
-  
-  #email-input {
-    display: block;
-    width: calc(100% - 40px);
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 2px solid black; /* Adding black border */
-    border-radius: 5px; /* Adding border radius */
-  }
-  
-  #submit-btn {
-    width: 150px;
-    padding: 10px 20px;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  #submit-btn:hover {
-    background-color: #333;
-  }
-
-
-
-
-
-
-
-
-  #cursor {
-    display: none; /* Initially hide the cursor */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60px; /* Increase cursor size */
-    height: 60px; /* Increase cursor size */
-    border: 6px solid yellow; /* Yellow border for the ring */
-    border-radius: 50%; /* Border radius to create the ring shape */
-    z-index: 1001; /* Set z-index above the popup */
-    opacity: 0; /* Initially invisible */
-  }
-  
-  .inner-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    background-color: transparent; /* Transparent background for the rotating element */
-    border: 2px solid yellow; /* Yellow border for the rotating element */
-    border-radius: 50%; /* Border radius to create the circle */
-    animation: rotateInnerCircle 1s linear infinite; /* Apply rotation animation */
-  }
-  
-  @keyframes rotateInnerCircle {
-    from {
-      transform: translate(-50%, -50%) rotate(0deg);
-    }
-    to {
-      transform: translate(-50%, -50%) rotate(360deg);
-    }
-  }
-  
-  /* Overlay Styles */
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-    z-index: 1000; /* Set z-index below the cursor */
-    pointer-events: none; /* Allow clicks to pass through */
-  }
-  
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -900,3 +773,120 @@ font-size: 20px;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  #popup-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  #close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: black;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  #close-btn:hover {
+    transform: rotate(90deg);
+  }
+  
+  #email-input {
+    display: block;
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid black; /* Adding black border */
+    border-radius: 5px; /* Adding border radius */
+  }
+  
+  #submit-btn {
+    width: 150px;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  #submit-btn:hover {
+    background-color: #333;
+  }
+
+
+
+
+
+
+
+  .loader {
+    display: none; /* Initially hide the loader */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 8px solid #fff; /* White border */
+    border-top: 8px solid #000; /* Black top border */
+    border-radius: 50%;
+    width: 60px; /* Increased size */
+    height: 60px; /* Increased size */
+    animation: spin 1s linear infinite; /* Rotate animation */
+    z-index: 1001; /* Above other content */
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  
+  .dark-overlay {
+    display: none; /* Initially hide the loader */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000; /* Below loader */
+  }

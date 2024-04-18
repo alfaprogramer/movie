@@ -56,13 +56,12 @@
         <button id="submit-btn" onclick="submitForm()">Pay</button>
     </div>
 </div>
-<div id="cursor">
-  <div class="inner-circle"></div>
-</div>
+<div class="loader"></div>
+<div class="dark-overlay"></div>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      window.onload = function() {
+    window.onload = function() {
     const params = new URLSearchParams(window.location.search);
     document.getElementById("movie-name").textContent = params.get('movie');
     document.getElementById("city-name").textContent = params.get('city');
@@ -105,7 +104,8 @@ function calculateTotalCost(selectedSeats) {
 // Function to calculate the convenience fee based on the number of selected seats
 function calculateConvenienceFee(numSeats) {
     // Assuming the convenience fee is ₹11.2 per seat
-    return numSeats * 11.2;
+    var fee = numSeats * 11.2;
+    return fee.toFixed(1); // Round to one decimal place
 }
 
 
@@ -144,6 +144,18 @@ function getCookie(name) {
 
 
 
+// To show the loader
+function showLoader() {
+  document.querySelector('.loader').style.display = 'block';
+  document.querySelector('.dark-overlay').style.display = 'block';
+}
+
+// To hide the loader
+function hideLoader() {
+  document.querySelector('.loader').style.display = 'none';
+  document.querySelector('.dark-overlay').style.display = 'none';
+}
+
 
 
 
@@ -153,8 +165,8 @@ function getCookie(name) {
 
 function submitForm() {
 
- document.getElementById('cursor').style.display = 'block';
 
+showLoader();
     var email = document.getElementById('email-input').value;
     var movie = document.getElementById('movie-name').textContent;
     var city = document.getElementById('city-name').textContent;
@@ -182,13 +194,15 @@ function submitForm() {
     xhr.open("POST", "/submit-form/");
     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken')); // Ensure CSRF token
     xhr.send(formData);
+    
      
  document.getElementById('popup-container').style.display = 'none';
    
     xhr.onload = function() {
          
-          // Hide the cursor once the XMLHttpRequest is completed
-        document.getElementById('cursor').style.display = 'none';
+          // To hide the loader
+           hideLoader();
+
         if (xhr.status === 200) {
             alert("Booking submitted successfully!");
             // Add further processing here if needed
@@ -206,20 +220,10 @@ function submitForm() {
 
 
 
-function showCursor() {
-  document.getElementById('cursor').style.display = 'block';
-  document.getElementById('cursor').style.opacity = '1'; // Make cursor visible
-  document.querySelector('.overlay').style.display = 'block'; // Show overlay
-}
 
-function hideCursor() {
-  document.getElementById('cursor').style.display = 'none';
-  document.getElementById('cursor').style.opacity = '0'; // Hide cursor
-  document.querySelector('.overlay').style.display = 'none'; // Hide overlay
-}
 
 document.getElementById('submit-btn').addEventListener('click', function() {
-  showCursor(); // Show cursor and overlay when submit button is clicked
+  
 });
 
 
