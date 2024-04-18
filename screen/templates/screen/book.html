@@ -79,12 +79,12 @@
     document.getElementById("total-cost").textContent = "₹ " + totalCost;
 
     // Calculate and display convenience fee
-    const convenienceFee = calculateConvenienceFee(selectedSeats.length);
-    document.getElementById("convenience-fee").textContent = "₹ " + convenienceFee;
+   const convenienceFee = calculateConvenienceFee(selectedSeats.length);
+document.getElementById("convenience-fee").textContent = "₹ " + convenienceFee.toFixed(1); // Display with one decimal place
 
-    // Calculate and display sum total
-    const sumTotal = totalCost + convenienceFee;
-    document.getElementById("sum-total").textContent = "₹ " + sumTotal;
+// Calculate and display sum total
+const sumTotal = totalCost + convenienceFee;
+document.getElementById("sum-total").textContent = "₹ " + sumTotal.toFixed(1); // Display with one decimal place
 
     // Set image source dynamically
     const imageUrl = params.get('image');
@@ -105,9 +105,8 @@ function calculateTotalCost(selectedSeats) {
 function calculateConvenienceFee(numSeats) {
     // Assuming the convenience fee is ₹11.2 per seat
     var fee = numSeats * 11.2;
-    return fee.toFixed(1); // Round to one decimal place
+    return parseFloat(fee.toFixed(1)); // Round to one decimal place and convert back to number
 }
-
 
 
 document.getElementById('pay-button').addEventListener('click', function() {
@@ -204,8 +203,11 @@ showLoader();
            hideLoader();
 
         if (xhr.status === 200) {
-            alert("Booking submitted successfully!");
+            alert("your ticket is booked successfully, a mail is send to you");
+
             // Add further processing here if needed
+            // After the alert is dismissed, redirect to index.html
+        window.location.href = "http://127.0.0.1:8000";
         } else {
             alert("Error: Booking submission failed.");
         }
