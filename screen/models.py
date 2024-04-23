@@ -83,7 +83,20 @@ class Show(models.Model):
     
 
 
+class Booking(models.Model):
+    email = models.EmailField()
+    movie = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    cinema_hall = models.CharField(max_length=100)
+    date = models.DateField()
+    show_timings = models.CharField(max_length=100)
+    selected_seats = models.CharField(max_length=255)  # Storing selected seats as comma-separated values
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    convenience_fee = models.DecimalField(max_digits=10, decimal_places=2)
+    sum_total = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return f"Booking for {self.movie} in {self.city} at {self.cinema_hall} on {self.date} ({self.show_timings}) - Selected Seats: {self.selected_seats}"
 
 
 

@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect,get_list_or_404
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
-from .models import Movie,City,Show,CinemaHall,SeatingConfiguration
+from .models import Movie,City,Show,CinemaHall,SeatingConfiguration,Booking
 from django.http import JsonResponse,HttpResponse
 from django.shortcuts import get_object_or_404
 import logging
 from django.core.mail import send_mail
+from datetime import datetime
 
 
 
@@ -175,34 +176,63 @@ def book(request):
 
 
 
-
-
-
 def submit_form(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        # Retrieve other booking details from POST data
-        # Send email using send_mail or any other email sending method
+        movie = request.POST.get('movie')
+        city = request.POST.get('city')
+        cinema_hall = request.POST.get('cinemaHall')
+        # Parse and format the date correctly
+        date_str = request.POST.get('date')
+        date = datetime.strptime(date_str, '%B %d, %Y').strftime('%Y-%m-%d')
+        show_timings = request.POST.get('showTimings')
+        selected_seats = request.POST.get('selectedSeats')
         
-        # Example using send_mail
+        # Extract numeric values for decimal fields
+        total_cost = float(request.POST.get('totalCost').replace('₹', '').strip())
+        convenience_fee = float(request.POST.get('convenienceFee').replace('₹', '').strip())
+        sum_total = float(request.POST.get('sumTotal').replace('₹', '').strip())
+
+        # Save booking details to the database
+        booking = Booking.objects.create(
+            email=email,
+            movie=movie,
+            city=city,
+            cinema_hall=cinema_hall,
+            date=date,
+            show_timings=show_timings,
+            selected_seats=selected_seats,
+            total_cost=total_cost,
+            convenience_fee=convenience_fee,
+            sum_total=sum_total
+        )
+
+        booking.save()
+
+
+
+        # Send email confirmation
         send_mail(
             'Booking Confirmation',
             'Your booking details:\nMovie: {}\nCity: {}\nCinema Hall: {}\nDate: {}\nShow Timings: {}\nSelected Seats: {}\nTotal Cost: {}\nConvenience Fee: {}\nSum Total: {}'.format(
-                request.POST.get('movie'), 
-                request.POST.get('city'), 
-                request.POST.get('cinemaHall'), 
-                request.POST.get('date'), 
-                request.POST.get('showTimings'), 
-                request.POST.get('selectedSeats'), 
-                request.POST.get('totalCost'), 
-                request.POST.get('convenienceFee'), 
-                request.POST.get('sumTotal')
+                movie, city, cinema_hall, date, show_timings, selected_seats, total_cost, convenience_fee, sum_total
             ),
             'adipayal2@gmail.com',
             [email],
             fail_silently=False,
         )
-        
-        return JsonResponse({'status': 'success'})
-    else:
-        return JsonResponse({'status': 'error'})
+
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'success': False})
+
+
+
+
+def get_selected_seats(request):
+    try:
+        booking = Booking.objects.latest('id')  # Get the latest booking
+        return JsonResponse({'selected_seats': booking.selected_seats})
+    except Booking.DoesNotExist:
+        return JsonResponse({'selected_seats': ''})
+

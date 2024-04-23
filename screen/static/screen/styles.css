@@ -435,6 +435,13 @@ font-size: 20px;
 }
 
 
+.seat.selected.unselectable {
+    background-color: rgb(126, 126, 124);
+    color: black;
+    pointer-events: none; /* Disable pointer events to make seats unselectable */
+}
+
+
 .thecart {
     margin-top: 80px; /* Add margin to separate it from themain */
     width: fit-content;

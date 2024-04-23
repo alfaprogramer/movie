@@ -293,6 +293,38 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('/get-selected-seats')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+       .then(data => {
+    console.log('Retrieved data:', data);
+    const selectedSeats = data.selected_seats.split(',');
+    applyStylingToSelectedSeats(selectedSeats);
+})
+        .catch(error => console.error('Error retrieving selected seats:', error));
+
+    function applyStylingToSelectedSeats(selectedSeats) {
+        selectedSeats.forEach(seatNumber => {
+            const selectedSeat = document.querySelector(`.seat[data-seat="${seatNumber}"]`);
+            if (selectedSeat) {
+                selectedSeat.classList.add('selected');
+                selectedSeat.classList.add('unselectable');
+            } else {
+                console.error(`Seat ${seatNumber} not found`);
+            }
+        });
+    }
+});
+
+
+
+
+
 
 
 
