@@ -172,7 +172,9 @@ def seats2(request):
 
 
 def book(request):
-    return render(request, 'screen/book.html')
+    show_id = request.GET.get('show_id')
+    cinema_hall_id = request.GET.get('cinema_hall_id')
+    return render(request, 'screen/book.html', {'show_id': show_id, 'cinema_hall_id': cinema_hall_id})
 
 
 
@@ -230,9 +232,22 @@ def submit_form(request):
 
 
 def get_selected_seats(request):
-    try:
-        booking = Booking.objects.latest('id')  # Get the latest booking
-        return JsonResponse({'selected_seats': booking.selected_seats})
-    except Booking.DoesNotExist:
-        return JsonResponse({'selected_seats': ''})
+    show_id = request.GET.get('show_id')
+    cinema_hall = request.GET.get('cinema_hall')
+    movie_name = request.GET.get('movie_name')
+    city_name = request.GET.get('city_name')
+    
+    # Query the database to get the booked seats for the specified show
+    bookings = Booking.objects.filter(
+        show_id=show_id,
+        cinema_hall=cinema_hall,
+        movie=movie_name,
+        city=city_name
+    )
+    
+    selected_seats = []
+    for booking in bookings:
+        selected_seats.extend(booking.selected_seats.split(','))
+
+    return JsonResponse({'selected_seats': selected_seats})
 
