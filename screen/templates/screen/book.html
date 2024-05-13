@@ -30,7 +30,9 @@
                     <p><strong>Total Cost:</strong> <span id="total-cost"></span></p>
                     <p><strong>Convenience Fee:</strong> <span id="convenience-fee"></span></p>
                     <p><strong>Sum Total:</strong> <span id="sum-total"></span></p>
+                  
 
+                  
             </div>
             <div class="horizontal-image">
              <img id="movie-image" src="" alt="Horizontal Image" class="horizontal-image">
@@ -52,6 +54,8 @@
     <div id="popup-box">
         <span id="close-btn">&times;</span>
         {% csrf_token %}
+        <input type="hidden" id="cinemaHallId" name="cinemaHallId">
+        <input type="hidden" id="showId" name="showId">
         <input type="email" id="email-input" placeholder="Enter your email">
         <button id="submit-btn" onclick="submitForm()">Pay</button>
     </div>
@@ -68,6 +72,15 @@
     document.getElementById("cinema-hall").textContent = params.get('cinema_hall');
     document.getElementById("date").textContent = params.get('date');
     document.getElementById("show-timings").textContent = params.get('timings');
+
+
+
+    const cinemaHallId = params.get('cinema_hall_id'); // Get cinema hall ID from URL
+     const showId = params.get('show_id'); // Get show ID from URL
+
+        // Assuming you have hidden input fields in your form with IDs "cinemaHallId" and "showId"
+        $('#cinemaHallId').val(cinemaHallId); // Set cinema hall ID value to hidden input field
+        $('#showId').val(showId); // Set show ID value to hidden input field
 
     // Display selected seats without costs
     const selectedSeats = params.get('seats').split(',');
@@ -177,6 +190,9 @@ function submitForm() {
     var convenienceFee = document.getElementById('convenience-fee').textContent;
     var sumTotal = document.getElementById('sum-total').textContent;
 
+    var cinemaHallId = document.getElementById('cinemaHallId').value;
+    var showId = document.getElementById('showId').value;
+
     var formData = new FormData();
     formData.append('email', email);
     formData.append('movie', movie);
@@ -188,6 +204,8 @@ function submitForm() {
     formData.append('totalCost', totalCost);
     formData.append('convenienceFee', convenienceFee);
     formData.append('sumTotal', sumTotal);
+    formData.append('cinemaHallId',cinemaHallId);
+    formData.append('showId',showId);
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "/submit-form/");

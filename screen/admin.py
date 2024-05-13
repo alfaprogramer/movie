@@ -36,7 +36,7 @@ class ShowAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('movie', 'city', 'cinema_hall', 'date', 'show_timings', 'selected_seats', 'total_cost', 'convenience_fee', 'sum_total')
+    list_display = ('movie', 'city', 'cinema_hall_id', 'date', 'show_timings', 'selected_seats', 'total_cost', 'convenience_fee', 'sum_total')
 
 
  

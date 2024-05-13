@@ -251,24 +251,26 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    bookButton.addEventListener('click', function() {
-        const selectedSeats = document.querySelectorAll('.seat.selected');
-        if (selectedSeats.length > 0) {
-            const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.textContent.split('<br>')[0].trim());
-            const movieName = "{{ movie_name }}";
-            const cityName = "{{ city_name }}";
-            const cinemaHallName = "{{ cinema_hall.name }}";
-            const date = "{{ show.date }}";
-            const timings = "{{ show.timings }}";
-            const imageUrl = getUrlParameter('image'); // Get image URL from URL parameters
+  bookButton.addEventListener('click', function() {
+    const selectedSeats = document.querySelectorAll('.seat.selected');
+    if (selectedSeats.length > 0) {
+        const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.textContent.split('<br>')[0].trim());
+        const movieName = "{{ movie_name }}";
+        const cityName = "{{ city_name }}";
+        const cinemaHallName = "{{ cinema_hall.name }}";
+        const date = "{{ show.date }}";
+        const timings = "{{ show.timings }}";
+        const showId = "{{ show.id }}"; // Get the show_id from the template
+        const cinemaHallId = "{{ cinema_hall.id }}"; // Get the cinema_hall_id from the template
+        const imageUrl = getUrlParameter('image'); // Get image URL from URL parameters
 
-            // Construct the query string with all parameters including the image URL
-            const queryString = `?movie=${encodeURIComponent(movieName)}&city=${encodeURIComponent(cityName)}&cinema_hall=${encodeURIComponent(cinemaHallName)}&date=${encodeURIComponent(date)}&timings=${encodeURIComponent(timings)}&seats=${encodeURIComponent(selectedSeatNumbers.join(','))}&image=${encodeURIComponent(imageUrl)}`;
+        // Construct the query string with all parameters including the image URL, show_id, and cinema_hall_id
+        const queryString = `?movie=${encodeURIComponent(movieName)}&city=${encodeURIComponent(cityName)}&cinema_hall=${encodeURIComponent(cinemaHallName)}&date=${encodeURIComponent(date)}&timings=${encodeURIComponent(timings)}&seats=${encodeURIComponent(selectedSeatNumbers.join(','))}&image=${encodeURIComponent(imageUrl)}&show_id=${encodeURIComponent(showId)}&cinema_hall_id=${encodeURIComponent(cinemaHallId)}`;
 
-            // Redirect to the booking page with the constructed query string
-            window.location.href = "{% url 'book' %}" + queryString;
-        }
-    });
+        // Redirect to the booking page with the constructed query string
+        window.location.href = "{% url 'book' %}" + queryString;
+    }
+});
 
     function updateBookButtonVisibility() {
         const selectedSeats = document.querySelectorAll('.seat.selected');

@@ -180,14 +180,17 @@ def book(request):
 
 def submit_form(request):
     if request.method == 'POST':
+        
         email = request.POST.get('email')
         movie = request.POST.get('movie')
         city = request.POST.get('city')
-        cinema_hall = request.POST.get('cinemaHall')
+        cinema_hall_id = request.POST.get('cinemaHallId')
+       
+        show_id = request.POST.get('showId')
+        
         # Parse and format the date correctly
         date_str = request.POST.get('date')
         date = datetime.strptime(date_str, '%B %d, %Y').strftime('%Y-%m-%d')
-        show_timings = request.POST.get('showTimings')
         selected_seats = request.POST.get('selectedSeats')
         
         # Extract numeric values for decimal fields
@@ -200,9 +203,9 @@ def submit_form(request):
             email=email,
             movie=movie,
             city=city,
-            cinema_hall=cinema_hall,
+            cinema_hall_id=cinema_hall_id,
             date=date,
-            show_timings=show_timings,
+            show_timings=show_id,
             selected_seats=selected_seats,
             total_cost=total_cost,
             convenience_fee=convenience_fee,
@@ -210,13 +213,14 @@ def submit_form(request):
         )
 
         booking.save()
+        
 
-
-
+        cinema_hall = request.POST.get('cinemaHall')  # Fetch cinema hall name
+        show_timings = request.POST.get('showTimings')  # Fetch show timings
         # Send email confirmation
         send_mail(
             'Booking Confirmation',
-            'Your booking details:\nMovie: {}\nCity: {}\nCinema Hall: {}\nDate: {}\nShow Timings: {}\nSelected Seats: {}\nTotal Cost: {}\nConvenience Fee: {}\nSum Total: {}'.format(
+            'Your booking details:\nMovie: {}\nCity: {}\nCinema Hall:  {}\nDate: {}\nShow Timings: {}\nSelected Seats: {}\nTotal Cost: {}\nConvenience Fee: {}\nSum Total: {}'.format(
                 movie, city, cinema_hall, date, show_timings, selected_seats, total_cost, convenience_fee, sum_total
             ),
             'adipayal2@gmail.com',
