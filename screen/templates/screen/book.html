@@ -119,18 +119,20 @@ window.onload = function() {
             // Apply the coupon
             sumTotal -= 40;
             document.getElementById("apply-coupon").textContent = "Remove";
+            couponCodeInput.value = "";
+            couponCodeInput.placeholder = "Code: BAT40 applied";
+            couponCodeInput.readOnly = true;
             isCouponApplied = true;
         } else if (isCouponApplied) {
             // Remove the coupon
             document.getElementById("apply-coupon").textContent = "Apply";
+            couponCodeInput.placeholder = "Enter Coupon Code";
+            couponCodeInput.readOnly = false;
             isCouponApplied = false;
         }
 
         // Display the updated sum total with one decimal place
         document.getElementById("sum-total").textContent = "₹ " + sumTotal.toFixed(1);
-        
-        // Optionally, clear the input field
-        couponCodeInput.value = "";
     });
 }
 
