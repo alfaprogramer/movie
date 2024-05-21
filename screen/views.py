@@ -234,24 +234,22 @@ def submit_form(request):
 
 
 
-
 def get_selected_seats(request):
     show_id = request.GET.get('show_id')
-    cinema_hall = request.GET.get('cinema_hall')
+    cinema_hall_id = request.GET.get('cinema_hall_id')
     movie_name = request.GET.get('movie_name')
     city_name = request.GET.get('city_name')
-    
-    # Query the database to get the booked seats for the specified show
+
     bookings = Booking.objects.filter(
-        show_id=show_id,
-        cinema_hall=cinema_hall,
+        show_timings=show_id,
+        cinema_hall_id=cinema_hall_id,
         movie=movie_name,
         city=city_name
     )
-    
+
     selected_seats = []
     for booking in bookings:
         selected_seats.extend(booking.selected_seats.split(','))
 
-    return JsonResponse({'selected_seats': selected_seats})
+    return JsonResponse({'booked_seats': selected_seats})
 
