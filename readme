@@ -1,0 +1,23 @@
+# Movie Booking Web Application
+
+## Overview
+This project is a web application for booking movie tickets. Users can select movies, cinema halls, showtimes, and seats, and apply discount coupons to their bookings.
+
+## Features
+- Browse and select movies by city and cinema hall.
+- View movie details including name, image, and show timings.
+- Select seats and view the total cost, including convenience fees.
+- Apply discount coupons to get a discount on the total booking amount.
+- Dynamic seat status updates based on bookings.
+
+## Technologies Used
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Django (Python)
+- **Database:** SQLite (or any database used)
+- **APIs:** Fetch API for AJAX requests
+
+## Setup and Installation
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/alfaprogramer/movie.git
+   cd movie
