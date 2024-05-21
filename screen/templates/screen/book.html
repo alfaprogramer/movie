@@ -40,7 +40,7 @@
         </div>    
             <!-- Coupon Code Input -->
             <div class="coupon">
-                <input type="text" placeholder="Enter Coupon Code">
+                <input type="text" id="coupon-code" placeholder="Enter Coupon Code">
                 <button id="apply-coupon">Apply</button>
             </div>
             <!-- Pay Button -->
@@ -65,7 +65,7 @@
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    window.onload = function() {
+window.onload = function() {
     const params = new URLSearchParams(window.location.search);
     document.getElementById("movie-name").textContent = params.get('movie');
     document.getElementById("city-name").textContent = params.get('city');
@@ -73,14 +73,12 @@
     document.getElementById("date").textContent = params.get('date');
     document.getElementById("show-timings").textContent = params.get('timings');
 
-
-
     const cinemaHallId = params.get('cinema_hall_id'); // Get cinema hall ID from URL
-     const showId = params.get('show_id'); // Get show ID from URL
+    const showId = params.get('show_id'); // Get show ID from URL
 
-        // Assuming you have hidden input fields in your form with IDs "cinemaHallId" and "showId"
-        $('#cinemaHallId').val(cinemaHallId); // Set cinema hall ID value to hidden input field
-        $('#showId').val(showId); // Set show ID value to hidden input field
+    // Assuming you have hidden input fields in your form with IDs "cinemaHallId" and "showId"
+    $('#cinemaHallId').val(cinemaHallId); // Set cinema hall ID value to hidden input field
+    $('#showId').val(showId); // Set show ID value to hidden input field
 
     // Display selected seats without costs
     const selectedSeats = params.get('seats').split(',');
@@ -92,16 +90,48 @@
     document.getElementById("total-cost").textContent = "₹ " + totalCost;
 
     // Calculate and display convenience fee
-   const convenienceFee = calculateConvenienceFee(selectedSeats.length);
-document.getElementById("convenience-fee").textContent = "₹ " + convenienceFee.toFixed(1); // Display with one decimal place
+    const convenienceFee = calculateConvenienceFee(selectedSeats.length);
+    document.getElementById("convenience-fee").textContent = "₹ " + convenienceFee.toFixed(1); // Display with one decimal place
 
-// Calculate and display sum total
-const sumTotal = totalCost + convenienceFee;
-document.getElementById("sum-total").textContent = "₹ " + sumTotal.toFixed(1); // Display with one decimal place
+    // Calculate and display sum total
+    const sumTotal = totalCost + convenienceFee;
+    document.getElementById("sum-total").textContent = "₹ " + sumTotal.toFixed(1); // Display with one decimal place
 
     // Set image source dynamically
     const imageUrl = params.get('image');
     document.getElementById("movie-image").src = imageUrl;
+
+    // Store the initial values for use in the coupon application
+    let isCouponApplied = false; // Track whether the coupon is applied
+
+    document.getElementById("apply-coupon").addEventListener("click", function() {
+        const couponCodeInput = document.getElementById("coupon-code");
+        const couponCode = couponCodeInput.value.trim();
+        
+        // Recalculate the total cost and convenience fee dynamically
+        const totalCost = calculateTotalCost(selectedSeats);
+        const convenienceFee = calculateConvenienceFee(selectedSeats.length);
+        
+        // Calculate initial sum total
+        let sumTotal = totalCost + convenienceFee;
+        
+        if (!isCouponApplied && couponCode === "BAT40") {
+            // Apply the coupon
+            sumTotal -= 40;
+            document.getElementById("apply-coupon").textContent = "Remove";
+            isCouponApplied = true;
+        } else if (isCouponApplied) {
+            // Remove the coupon
+            document.getElementById("apply-coupon").textContent = "Apply";
+            isCouponApplied = false;
+        }
+
+        // Display the updated sum total with one decimal place
+        document.getElementById("sum-total").textContent = "₹ " + sumTotal.toFixed(1);
+        
+        // Optionally, clear the input field
+        couponCodeInput.value = "";
+    });
 }
 
 // Function to calculate the total cost based on selected seats
@@ -117,7 +147,7 @@ function calculateTotalCost(selectedSeats) {
 // Function to calculate the convenience fee based on the number of selected seats
 function calculateConvenienceFee(numSeats) {
     // Assuming the convenience fee is ₹11.2 per seat
-    var fee = numSeats * 11.2;
+    const fee = numSeats * 11.2;
     return parseFloat(fee.toFixed(1)); // Round to one decimal place and convert back to number
 }
 
