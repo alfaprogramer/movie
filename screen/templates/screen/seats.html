@@ -295,30 +295,37 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-   document.addEventListener("DOMContentLoaded", function() {
-            const queryParams = new URLSearchParams(window.location.search);
-            const showId = queryParams.get('show_id');
-            const cinemaHallId = queryParams.get('cinema_hall_id');
-            const movieName = queryParams.get('movie_name');
-            const cityName = queryParams.get('city_name');
+document.addEventListener("DOMContentLoaded", function() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const showId = queryParams.get('show_id');
+    const cinemaHallId = queryParams.get('cinema_hall_id');
+    const movieName = queryParams.get('movie_name');
+    const cityName = queryParams.get('city_name');
 
-            fetch(`/api/seats/?show_id=${showId}&cinema_hall_id=${cinemaHallId}&movie_name=${encodeURIComponent(movieName)}&city_name=${encodeURIComponent(cityName)}`)
-                .then(response => response.json())
-                .then(data => {
-                    const bookedSeats = data.booked_seats;
-                    applyStylingToBookedSeats(bookedSeats);
-                })
-                .catch(error => console.error('Error retrieving booked seats:', error));
+    console.log(`Fetching data for show_id=${showId}, cinema_hall_id=${cinemaHallId}, movie_name=${movieName}, city_name=${cityName}`);
 
-            function applyStylingToBookedSeats(bookedSeats) {
-                bookedSeats.forEach(seatNumber => {
-                    const bookedSeat = document.querySelector(`.seat[data-seat="${seatNumber}"]`);
-                    if (bookedSeat) {
-                        bookedSeat.classList.add('booked');
-                    }
-                });
+    fetch(`/api/seats/?show_id=${showId}&cinema_hall_id=${cinemaHallId}&movie_name=${encodeURIComponent(movieName)}&city_name=${encodeURIComponent(cityName)}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Data received:', data);
+            const bookedSeats = data.booked_seats;
+            applyStylingToBookedSeats(bookedSeats);
+        })
+        .catch(error => console.error('Error retrieving booked seats:', error));
+
+    function applyStylingToBookedSeats(bookedSeats) {
+        console.log('Applying styling to booked seats:', bookedSeats);
+        bookedSeats.forEach(seatNumber => {
+            const bookedSeat = document.querySelector(`.seat[data-seat="${seatNumber}"]`);
+            if (bookedSeat) {
+                console.log(`Booking seat: ${seatNumber}`);
+                bookedSeat.classList.add('booked');
+            } else {
+                console.log(`Seat ${seatNumber} not found.`);
             }
         });
+    }
+});
 
 
 

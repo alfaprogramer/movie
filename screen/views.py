@@ -240,6 +240,7 @@ def get_selected_seats(request):
     movie_name = request.GET.get('movie_name')
     city_name = request.GET.get('city_name')
 
+    # Query the database to get the booked seats for the specified show
     bookings = Booking.objects.filter(
         show_timings=show_id,
         cinema_hall_id=cinema_hall_id,
@@ -249,7 +250,7 @@ def get_selected_seats(request):
 
     selected_seats = []
     for booking in bookings:
-        selected_seats.extend(booking.selected_seats.split(','))
+        selected_seats.extend(seat.strip() for seat in booking.selected_seats.split(','))  # Trim spaces
 
     return JsonResponse({'booked_seats': selected_seats})
 

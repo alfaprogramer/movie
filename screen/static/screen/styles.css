@@ -436,7 +436,7 @@ font-size: 20px;
 
 
 .seat.booked {
-    background-color: rgb(126, 126, 124);
+    background-color: rgb(240, 9, 6);
     color: black;
     pointer-events: none;
 }
