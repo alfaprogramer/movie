@@ -8,7 +8,8 @@ This project is a web application for booking movie tickets. Users can select mo
 - View movie details including name, image, and show timings.
 - Select seats and view the total cost, including convenience fees.
 - Apply discount coupons to get a discount on the total booking amount.
-- Dynamic seat status updates based on bookings.
+- get your ticket info on your email id.
+- Dynamic seat status updates based on bookings. 
 
 ## Technologies Used
 - **Frontend:** HTML, CSS, JavaScript
