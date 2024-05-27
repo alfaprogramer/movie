@@ -139,47 +139,6 @@ function selectCity(city) {
 }
 
 
-
-
-// Function to fetch movies for the selected city
-async function fetchMovies(city) {
-    try {
-        const selectedCity = encodeURIComponent(city); // Encode city name
-        const response = await fetch(`/get_movies/${selectedCity}`); // Include selected city in URL
-        const data = await response.json();
-
-        displayMovies(data);
-    } catch (error) {
-        console.error('Error fetching movies:', error);
-    }
-}
-
-// Function to display movies
-function displayMovies(movies) {
-    const movieList = document.getElementById('movieList');
-    movieList.innerHTML = '';
-    const selectedCity = document.getElementById('selectedCity').innerText; // Retrieve selected city
-    movies.forEach(movie => {
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.innerHTML = `
-            <img src="${movie.image}" alt="${movie.image}">
-            <div class="overlay">
-                <p>Movie name: ${movie.name}</p>
-            </div>
-        `;
-        // Add click event listener to each card
-       card.addEventListener('click', function() {
-      window.location.href = `/movie-details/${movie.name}/?city=${encodeURIComponent(selectedCity)}`;
-});
-        movieList.appendChild(card);
-    });
-}
-
-
-
-
-
 // Function to execute on window load
 window.onload = async function () {
     try {
@@ -219,6 +178,47 @@ document.body.addEventListener('click', function(event) {
   }
 });
 
+
+
+
+
+
+
+
+// Function to fetch movies for the selected city
+async function fetchMovies(city) {
+    try {
+        const selectedCity = encodeURIComponent(city); // Encode city name
+        const response = await fetch(`/get_movies/${selectedCity}`); // Include selected city in URL
+        const data = await response.json();
+
+        displayMovies(data);
+    } catch (error) {
+        console.error('Error fetching movies:', error);
+    }
+}
+
+// Function to display movies
+function displayMovies(movies) {
+    const movieList = document.getElementById('movieList');
+    movieList.innerHTML = '';
+    const selectedCity = document.getElementById('selectedCity').innerText; // Retrieve selected city
+    movies.forEach(movie => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+            <img src="${movie.image}" alt="${movie.image}">
+            <div class="overlay">
+                <p>Movie name: ${movie.name}</p>
+            </div>
+        `;
+        // Add click event listener to each card
+       card.addEventListener('click', function() {
+      window.location.href = `/movie-details/${movie.name}/?city=${encodeURIComponent(selectedCity)}`;
+});
+        movieList.appendChild(card);
+    });
+}
 
 async function toggleFilter(ageRating) {
     const selectedCity = document.getElementById('selectedCity').innerText;
@@ -287,6 +287,19 @@ async function filterByLanguage(language, selectedCity) {
         console.error('Error filtering movies by language:', error);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
