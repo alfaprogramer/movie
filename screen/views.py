@@ -254,3 +254,14 @@ def get_selected_seats(request):
 
     return JsonResponse({'booked_seats': selected_seats})
 
+
+
+
+
+
+
+
+
+
+
+
