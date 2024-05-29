@@ -21,6 +21,7 @@ path('seats2/',views.seats2, name="seats2"),
  path('book', views.book, name="book"),
 path('submit-form/', views.submit_form, name='submit_form'),
 path('api/seats/', views.get_selected_seats, name='get_selected_seats'),
+path('api/seats2/', views.get_selected_seats, name='get_selected_seats2'),
 ] 
 
 # Serve uploaded media files during development

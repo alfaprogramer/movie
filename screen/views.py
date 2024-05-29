@@ -153,6 +153,7 @@ def seats2(request):
     cinema_hall_id = request.GET.get('cinema_hall_id')
     movie_name = request.GET.get('movie_name')
     city_name = request.GET.get('city_name')
+    image_url = request.GET.get('image')  # Retrieve image URL from request
 
     # Retrieve show details
     show = Show.objects.get(id=show_id)
@@ -164,7 +165,8 @@ def seats2(request):
         'show': show,
         'cinema_hall': cinema_hall,
         'movie_name': movie_name,  # Pass movie name
-        'city_name': city_name  # Pass city name
+        'city_name': city_name,  # Pass city name
+        'image_url': image_url,  # Pass image URL to the template
     }
 
     return render(request, 'screen/seats2.html', context)
@@ -187,6 +189,10 @@ def submit_form(request):
         cinema_hall_id = request.POST.get('cinemaHallId')
        
         show_id = request.POST.get('showId')
+
+        print(f"Received cinema_hall_id: {cinema_hall_id}")  # Debugging
+        print(f"Received show_id: {show_id}")  # Debugging
+
         
         # Parse and format the date correctly
         date_str = request.POST.get('date')
