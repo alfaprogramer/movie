@@ -22,3 +22,5 @@ This project is a web application for booking movie tickets. Users can select mo
    ```bash
    git clone https://github.com/alfaprogramer/movie.git
    cd movie
+
+##  if you want to test it , just seletion city AMRITSAR WHICH would be selected by default, select movie BATMAN from there you are free to choose any options, this thing because the data for other movies and cities has not added.   
